@@ -1,0 +1,113 @@
+---
+title: "Homework 1"
+author: "Justin Vernieri"
+date: "2025-02-07"
+output: html_document
+---
+## Importing the Excel CSV file
+```{r}
+Typical_Employee_Survey_Data <- read.csv("C:\\Users\\justi\\OneDrive\\Documents\\Rutgers Junior\\Sem 2\\Time Series Modeling\\Typical_Employee_Survey_Data.csv",header = FALSE)
+str(Typical_Employee_Survey_Data)
+```
+## Changing the Column Names
+```{r}
+names(Typical_Employee_Survey_Data)[1] <- "Age"
+names(Typical_Employee_Survey_Data)[2] <- "Gender"
+names(Typical_Employee_Survey_Data)[3] <- "SatisfactionLevel"
+names(Typical_Employee_Survey_Data)[4] <- "MostImportantJobCharacteristic"
+names(Typical_Employee_Survey_Data)[5] <- "YearsWorked"
+names(Typical_Employee_Survey_Data)[6] <- "PromotionChance"
+names(Typical_Employee_Survey_Data)[7] <- "CanYouMakeDecisions?"
+names(Typical_Employee_Survey_Data)[8] <- "BudgetaryDecisions?"
+names(Typical_Employee_Survey_Data)[9] <- "PrideLevel"
+names(Typical_Employee_Survey_Data)[10] <- "TurnDownAnotherJobToStay?"
+names(Typical_Employee_Survey_Data)[11] <- "CoworkerRelations"
+```
+## Changing the Appropriate  Columns to Factors
+```{r}
+Typical_Employee_Survey_Data$Gender <- factor(Typical_Employee_Survey_Data$Gender, levels=c(1,2), labels=c("M","F"))
+
+Typical_Employee_Survey_Data$SatisfactionLevel <- factor(Typical_Employee_Survey_Data$SatisfactionLevel, levels = c(1,2,3,4), labels = c("Very Satisfied", "Moderately Satisified", "A Little Dissatisfied", "Very Dissatisfied"))
+
+Typical_Employee_Survey_Data$MostImportantJobCharacteristic <- factor(Typical_Employee_Survey_Data$MostImportantJobCharacteristic, levels = c(1,2,3,4,5), labels = c("High Income", "No Danger of Being Fired", "Flexible Hours", "Opportunities for Advancements", "Enjoying the Work"))
+
+Typical_Employee_Survey_Data$PromotionChance <- factor(Typical_Employee_Survey_Data$PromotionChance, levels = c(1,2,3,4,5), labels = c("Very Likely", "Likely", "Not Sure", "Unlikely", "Very Unlikely"))
+
+Typical_Employee_Survey_Data$`CanYouMakeDecisions?` <- factor(Typical_Employee_Survey_Data$`CanYouMakeDecisions?`, levels = c(1,2,3,4), labels = c("Always", "Much of the Time", "Sometimes", "Never"))
+
+Typical_Employee_Survey_Data$`BudgetaryDecisions?` <- factor(Typical_Employee_Survey_Data$`BudgetaryDecisions?`, levels = c(1,2), labels = c("Yes", "No"))
+
+Typical_Employee_Survey_Data$PrideLevel <- factor(Typical_Employee_Survey_Data$PrideLevel, levels = c(1,2,3,4), labels = c("Very Proud", "Somewhat Proud", "Indifferent", "Not At All Proud"))
+
+Typical_Employee_Survey_Data$`TurnDownAnotherJobToStay?` <- factor(Typical_Employee_Survey_Data$`TurnDownAnotherJobToStay?`, levels = c(1,2,3,4,5), labels = c("Very Likely", "Likely", "Not Sure", "Unlikely", "Very Unlikely"))
+
+Typical_Employee_Survey_Data$CoworkerRelations <- factor(Typical_Employee_Survey_Data$CoworkerRelations, levels = c(1,2,3,4,5), labels = c("Very Good", "Good", "So So", "Bad", "Very Bad"))
+```
+## Updated Data
+```{r}
+Typical_Employee_Survey_Data
+```
+## 5-point Summaries for Each Column
+```{r}
+summary(Typical_Employee_Survey_Data$Age)
+summary(Typical_Employee_Survey_Data$Gender)
+summary(Typical_Employee_Survey_Data$SatisfactionLevel)
+summary(Typical_Employee_Survey_Data$MostImportantJobCharacteristic)
+summary(Typical_Employee_Survey_Data$YearsWorked)
+summary(Typical_Employee_Survey_Data$PromotionChance)
+summary(Typical_Employee_Survey_Data$`CanYouMakeDecisions?`)
+summary(Typical_Employee_Survey_Data$`BudgetaryDecisions?`)
+summary(Typical_Employee_Survey_Data$PrideLevel)
+summary(Typical_Employee_Survey_Data$`TurnDownAnotherJobToStay?`)
+summary(Typical_Employee_Survey_Data$CoworkerRelations)
+```
+## Box Plots for Each Numerical Column
+```{r}
+# The box plot for Age indicates that half of the employees are older than 38 and half are younger than 38. It is also important to note that the employees range from age 20 to the mid 60s.
+boxplot(Typical_Employee_Survey_Data$Age, main = "Boxplot for Age")
+
+# The box plot for Number of Years Worked indicates that half of employees have worked less than 5 years for the organization and half of the employees have worked more than 5 years. It also tells us that the majority of employees have worked from 2-11 years, which is the IQR.
+boxplot(Typical_Employee_Survey_Data$YearsWorked, main = "Boxplot For Number of Years Worked")
+```
+
+## Other Visuals
+```{r}
+# The histogram for Age clearly highlights the most common age ranges of workers at the organization. For example, the majority of employees are within the ages 30 and 45, which means that the organization has primarily middle age employees. 
+hist(Typical_Employee_Survey_Data$Age, main = "Age of Workers", xlab = "Age", col="Blue")
+
+# The histogram for Number of Years Worked indicates that most of the employees have worked for the organization less than 10 years. In fact, greater than 60 individuals have worked for the company less than 5 years. This means that the organization is hiring new people. This histogram is certainly right-skewed.
+hist(Typical_Employee_Survey_Data$YearsWorked, main = "Number of Years Worked", xlab = "Years Worked", col="Blue")
+
+# The bar plot for Gender shows the count of males and females in the organization. Overall, the company does not have too great of a disparity between males and females. It does have more males than females, with about 70 males and 50 females.  
+plot(Typical_Employee_Survey_Data$Gender, main = "Gender", xlab = "Male or Female", ylab = "Count", col = "Blue")
+
+# The bar plot for employee satisfaction shows a general positive view of the organization. Of the four ratings, most employees are either very satisfied or moderately satisfied with their job, something that the organization is pleased to hear. There are less than 20 total employees that are are a little dissatisfied or very dissatisfied with their job.
+plot(Typical_Employee_Survey_Data$SatisfactionLevel, main = "How satisfied are you with your job?", xlab = "Ratings", ylab = "Count", col = "Blue", cex.names = 0.7)
+
+# The bar plot for most important job characteristics shows that the majority of employees want to enjoy the work they do. The second most important characteristic to the employees seems to be high income. Overall, employees want to like the tasks they are doing while also being well compensated.
+plot(Typical_Employee_Survey_Data$MostImportantJobCharacteristic, main = "Which of the following job characteristics is most important to you?", xlab = "Job Characteristics", ylab = "Count", col = "Blue", cex.names = 0.5)
+
+# The bar plot for Promotion Chance points out that there is a mix of feelings from employees about whether they feel they may be promoted within the next five years. The response with the greatest count is "Very Unlikely", followed by "Unlikely", which means that many employees think a promotion is not expected. While there are a lot of "Very likely" or "Likely" responses, the organization may be at risk of losing employees in the future if they have many opportunities for promotion.
+plot(Typical_Employee_Survey_Data$PromotionChance, main = "How likely are you to be promoted within the next 5 years?", xlab = "Responses", ylab = "Count", col = "Blue")
+
+# The bar plot about general decision-making shows that almost all employees are allowed to make decisions that affect their work at least some of the time. This means that the work at the company allows for free reign and flexibility in terms of the work they do.
+plot(Typical_Employee_Survey_Data$`CanYouMakeDecisions?`, main = "Are you allowed to make decisions that affect your work?", xlab = "Responses", ylab = "Count", col = "Blue")
+
+# The bar plot for budgetary decision-making points out that a lot of employees do participate in budgetary decisions as part of their work, while a lot also do not, with the former being slightly more. This makes sense because as a manufacturer of consumer goods, the organization would have a mix of sales, technical, and managerial staff.
+plot(Typical_Employee_Survey_Data$`BudgetaryDecisions?`, main = "Do you participate in budgetary decisions as part of your job?", xlab = "Yes or No", ylab = "Count", col = "Blue")
+
+# The bar plot for Pride Level suggest that employees have at least some pride in working at this organization. Out of the 122 employees sampled, over 70 are somewhat proud and over 30 are very proud. Working at this organization is not believed to be frowned upon.
+plot(Typical_Employee_Survey_Data$PrideLevel, main = "How proud are you to be working for this organization?", xlab = "Responses", ylab = "Count", col = "Blue")
+
+# The bar plot of responses about turning down another job with more pay actually indicates something surprising. While it seemed from other data that employees are generally satisfied with their work and the organization, this bar plot signifies that many employees would not turn down another job with more pay. This suggests that employees are actually open to new ventures and new opportunities that offer more money, meaning that this organization may need to prioritize ways to maintain retention and increase overall pay.
+plot(Typical_Employee_Survey_Data$`TurnDownAnotherJobToStay?`, main = "Would you turn down another job with more pay to stay?", xlab = "Responses", ylab = "Count", col = "Blue")
+
+# The bar plot about coworker relations conveys that an overwhelming majority of employees have neutral to positive relationships with coworkers and colleagues. This means that the culture of the organization is positive, welcoming, and friendly. Out of the 122 employees that participated in this survey, almost 100 of them have good or very good relations with coworkers.
+plot(Typical_Employee_Survey_Data$CoworkerRelations, main = "How would you describe relations between coworkers?", xlab = "Responses", ylab = "Count", col = "Blue")
+```
+
+## Scatter Plot to Show Relationship between Age and Years Worked
+```{r}
+# The scatter plot of Age vs. Years Worked shows a general trend. Employees that are older in age are more likely to have worked for the organization for a longer time (more years). This is a slight positive correlation between age and years worked. It is also important to notice that as age increases, the number of years worked becomes more scattered. In other words, there is more variability in years worked among older employees.  
+plot(Typical_Employee_Survey_Data$Age, Typical_Employee_Survey_Data$YearsWorked, main = "Scatterplot of Age vs. Years Worked", xlab = "Age", ylab = "Years Worked", col = "Blue")
+```
